@@ -1,39 +1,60 @@
 
 public class PlaneteTellurique extends Planete implements Habitable{
 
-    Vaisseau[] baieAccostage;
+    Vaisseau[][] baieAccostage;
 
     public PlaneteTellurique(String nom, int tailleBaie) {
         super(nom, tailleBaie);
-        this.baieAccostage = new Vaisseau[tailleBaie];
+        this.baieAccostage = new Vaisseau[tailleBaie][tailleBaie];
     }
 
-    public boolean restePlaceDisponible() {
-        for(int i = 0; i < baieAccostage.length; i++) {
-            if(baieAccostage[i] == null) {
+    public boolean restePlaceDisponible(Vaisseau vaisseau) {
+
+        int indexZone = 0;
+
+        switch(vaisseau.type) {
+            case CARGO:
+            case VAISSEAUMONDE:
+                indexZone = 1;
+        }
+
+        for(int i = 0; i < baieAccostage[indexZone].length; i++) {
+            if(baieAccostage[indexZone][i] == null) {
                 return true;
             }
         }
         return false;
     }
 
-    public void accueillirVaisseau(Vaisseau vaisseau){
+    public void accueillirVaisseaux(Vaisseau... vaisseaux){
 
-        if (vaisseau instanceof VaisseauDeGuerre){
-            ((VaisseauDeGuerre)vaisseau).desactiverArmes();
-        }
+        for(int j = 0; j < vaisseaux.length; j++) {
 
-        totalVisiteurs+=vaisseau.nbPassagers;
+            int indexZone = 0;
 
-        for(int i = 0; i < baieAccostage.length; i++) {
-            if(baieAccostage[i] == null) {
-                baieAccostage[i] = vaisseau;
-                break;
+            switch(vaisseaux[j].type) {
+                case CARGO:
+                case VAISSEAUMONDE:
+                    indexZone = 1;
             }
+
+
+            for(int i = 0; i < baieAccostage[indexZone].length; i++) {
+                if(baieAccostage[indexZone][i] == null) {
+                    baieAccostage[indexZone][i] = vaisseaux[j];
+                    break;
+                }
+            }
+
+            if (vaisseaux[j] instanceof VaisseauDeGuerre){
+                ((VaisseauDeGuerre)vaisseaux[j]).desactiverArmes();
+            }
+
+            totalVisiteurs+=vaisseaux[j].nbPassagers;
+
+
         }
 
     }
-
-
 
 }

@@ -1,19 +1,23 @@
 
-public abstract class Planete {
+public abstract class Planete implements Comparable{
     String nom;
     int tailleBaie;
     int diametre;
     int totalVisiteurs;
+    float distanceEtoile;
 
     Atmosphere atmosphere;
 
     static String forme="Sphérique";
     static int nbPlanetesDecouvertes;
 
-    Planete(String nom){
+    public int compareTo(Object o) {
+        Planete autrePlanete = (Planete)o;
+        return ((Float)this.distanceEtoile).compareTo(autrePlanete.distanceEtoile);
+    }
+
+    Planete(String nom) {
         this.nom=nom;
-        this.tailleBaie = tailleBaie;
-        nbPlanetesDecouvertes++;
     }
 
     Planete(String nom, int tailleBaie){

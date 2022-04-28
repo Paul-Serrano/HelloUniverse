@@ -1,5 +1,5 @@
 public interface Habitable {
 
-    void accueillirVaisseau(Vaisseau nouveauVaisseau);
+    void accueillirVaisseaux(Vaisseau... nouveauVaisseau);
 
 }
