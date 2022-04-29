@@ -1,16 +1,20 @@
+package com.espacex.decouverte.enginsspatiaux;
+import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.VAISSEAUMONDE;
+import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.CARGO;
+
 public class VaisseauCivil extends Vaisseau {
 
     public VaisseauCivil(TypeVaisseau type) {
-        this.type = type;
-        if (type == TypeVaisseau.CARGO) {
+        super(type);
+        if (type == CARGO) {
             tonnageMax = 500;
-        } else if (type == TypeVaisseau.VAISSEAUMONDE) {
+        } else if (type == VAISSEAUMONDE) {
             tonnageMax = 2000;
         }
 
     }
 
-    int emporterCargaison(int tonnage) {
+    public int emporterCargaison(int tonnage) {
 
         int tonnageRestant = tonnageMax - tonnageActuel;
         if (tonnage > tonnageRestant) {

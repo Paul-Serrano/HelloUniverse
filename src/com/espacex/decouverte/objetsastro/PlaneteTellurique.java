@@ -1,5 +1,9 @@
+package com.espacex.decouverte.objetsastro;
 
-public class PlaneteTellurique extends Planete implements Habitable{
+import com.espacex.decouverte.enginsspatiaux.Vaisseau;
+import com.espacex.decouverte.enginsspatiaux.VaisseauDeGuerre;
+
+public class PlaneteTellurique extends Planete implements Habitable {
 
     Vaisseau[][] baieAccostage;
 

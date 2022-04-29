@@ -1,22 +1,27 @@
+package com.espacex.decouverte.enginsspatiaux;
+import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.CHASSEUR;
+import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.FREGATE;
+import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.CROISEUR;
+
 public class VaisseauDeGuerre extends Vaisseau {
 
-    boolean armesDesactivees;
+    private boolean armesDesactivees;
 
     public VaisseauDeGuerre(TypeVaisseau type){
-        this.type=type;
-        if (type == TypeVaisseau.CHASSEUR){
+        super(type);
+        if (type == CHASSEUR){
             tonnageMax=0;
         }
-        else if (type == TypeVaisseau.FREGATE){
+        else if (type == FREGATE){
             tonnageMax=50;
         }
-        else if (type == TypeVaisseau.CROISEUR){
+        else if (type == CROISEUR){
             tonnageMax=100;
         }
 
     }
 
-    void attaque(Vaisseau vaisseauCible, String arme, int duree) {
+    public void attaque(Vaisseau vaisseauCible, String arme, int duree) {
         if (armesDesactivees) {
             System.out.println("Attaque impossible, l'armement est désactivé");
         } else {
@@ -26,17 +31,22 @@ public class VaisseauDeGuerre extends Vaisseau {
         }
     }
 
-    void desactiverArmes() {
+    public void desactiverArmes() {
         System.out.println("Désactivation des armes d'un vaisseau de type " + type);
         armesDesactivees = true;
     }
 
-    void activerBouclier(){
+    public void activerArmes() {
+        System.out.println("Activation des armes d'un vaisseau de type " + type);
+        armesDesactivees = true;
+    }
+
+    public void activerBouclier(){
         System.out.println("Activation du bouclier d'un vaisseau de type "+type+".");
         desactiverArmes();
     }
 
-    int emporterCargaison (int cargaison){
+    public int emporterCargaison (int cargaison){
         if (type.equals("CHASSEUR")){
             return cargaison;
         }
