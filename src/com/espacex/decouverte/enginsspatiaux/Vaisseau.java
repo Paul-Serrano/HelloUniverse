@@ -20,6 +20,6 @@ public abstract class Vaisseau {
         System.out.println("Désactivation du bouclier d'un vaisseau de type "+type+".");
     }
 
-    public abstract int emporterCargaison(int tonnage);
+    public abstract void emporterCargaison(int tonnage) throws DepassementTonnageException;
 
 }

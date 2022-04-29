@@ -14,15 +14,14 @@ public class VaisseauCivil extends Vaisseau {
 
     }
 
-    public int emporterCargaison(int tonnage) {
+    public void emporterCargaison(int tonnage)  throws DepassementTonnageException {
 
         int tonnageRestant = tonnageMax - tonnageActuel;
         if (tonnage > tonnageRestant) {
-            tonnageActuel = tonnageMax;
-            return tonnage-tonnageRestant;
+            int tonnageEnExces = tonnageRestant - tonnageActuel;
+            throw new DepassementTonnageException(tonnageEnExces);
         }
         tonnageActuel+=tonnage;
-        return 0;
     }
 
 }

@@ -46,25 +46,24 @@ public class VaisseauDeGuerre extends Vaisseau {
         desactiverArmes();
     }
 
-    public int emporterCargaison (int cargaison){
+    public void emporterCargaison (int cargaison)  throws DepassementTonnageException{
         if (type.equals("CHASSEUR")){
-            return cargaison;
+            throw new DepassementTonnageException(cargaison);
         }
         else {
-            if (nbPassagers<12){                return cargaison;
-
+            if (nbPassagers<12){
+                throw new DepassementTonnageException(cargaison);
             }
             else {
                 int tonnagePassagers=nbPassagers*2;
                 int tonnageRestant=tonnageMax-tonnageActuel;
                 int tonnageAConsiderer=(tonnagePassagers<tonnageRestant ? tonnagePassagers : tonnageRestant);
                 if (cargaison>tonnageAConsiderer){
-                    tonnageActuel=tonnageMax;
-                    return cargaison-tonnageAConsiderer;
+                    int tonnageEnExces = tonnageRestant - tonnageActuel;
+                    throw new DepassementTonnageException(tonnageEnExces);
                 }
                 else {
                     tonnageActuel+=cargaison;
-                    return 0;
                 }
             }
         }

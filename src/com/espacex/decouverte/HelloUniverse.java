@@ -1,19 +1,20 @@
 package com.espacex.decouverte;
 
-import com.espacex.decouverte.enginsspatiaux.TypeVaisseau;
+import com.espacex.decouverte.enginsspatiaux.*;
+
 import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.VAISSEAUMONDE;
 import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.CARGO;
 import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.CHASSEUR;
 import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.FREGATE;
 import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.CROISEUR;
-import com.espacex.decouverte.enginsspatiaux.VaisseauCivil;
-import com.espacex.decouverte.enginsspatiaux.VaisseauDeGuerre;
-import com.espacex.decouverte.enginsspatiaux.Vaisseau;
+
 import com.espacex.decouverte.objetsastro.Galaxie;
 import com.espacex.decouverte.objetsastro.Planete;
 import com.espacex.decouverte.objetsastro.Atmosphere;
 import com.espacex.decouverte.objetsastro.PlaneteGazeuse;
 import com.espacex.decouverte.objetsastro.PlaneteTellurique;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class HelloUniverse {
@@ -158,18 +159,45 @@ public class HelloUniverse {
 
             System.out.println("Le vaisseau souhaite se poser sur la planète " + planeteSelectionneeDansGalaxie.nom);
             PlaneteTellurique planeteSelectionnee = (PlaneteTellurique) planeteSelectionneeDansGalaxie;
+            int tonnageSouhaite;
+            while(true){
+                System.out.println("Quel tonnage souhaitez-vous emporter ?");
+                try{
+                    tonnageSouhaite = sc.nextInt();
+                    break;
+                }
+                catch(InputMismatchException ime){
+                    System.out.println("Le tonnage n'est pas une valeur numérique");
+                }
+                finally {
+                    sc.nextLine();
+                }
+            }
 
-            System.out.println("Quel tonnage souhaitez-vous emporter ?");
-            int tonnageSouhaite = sc.nextInt();
 
             if (planeteSelectionnee.restePlaceDisponible(vaisseauSelectionne)) {
                 planeteSelectionnee.accueillirVaisseaux(vaisseauSelectionne);
-                System.out.println("Le vaisseau a rejeté : " + vaisseauSelectionne.emporterCargaison(tonnageSouhaite) + " tonnes.");
+                try {
+                    vaisseauSelectionne.emporterCargaison(tonnageSouhaite);
+                } catch (DepassementTonnageException dte) {
+                    System.out.println("Le vaisseau a rejeté " + dte.tonnageEnExces + " tonnes");
+                    System.out.println("voulez vous emporter un tonnage partiel à hauteur de " + (tonnageSouhaite - dte.tonnageEnExces) + " tonnes ?");
+                    String accepte = sc.nextLine();
+                    if(accepte.equals("oui")){
+                        try {
+                            vaisseauSelectionne.emporterCargaison(tonnageSouhaite-dte.tonnageEnExces);
+                        } catch (DepassementTonnageException e) {
+                            System.out.println("erreur inattendue");
+                        }
+                    }
+                    else {
+                        System.out.println("Opération annulée");
+                    }
+
+                }
             } else {
                 System.out.println("Le vaisseau ne peut pas se poser sur la planète par manque de place dans la baie.");
             }
-
-            sc.nextLine();
             System.out.println("Voulez-vous recommencer oui/non ?");
 
             recommencer = sc.nextLine().equals("oui");
